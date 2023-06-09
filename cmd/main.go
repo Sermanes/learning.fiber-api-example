@@ -32,5 +32,8 @@ func main() {
 		return c.SendString(fmt.Sprintf("API Path is: %s", c.Params("*")))
 	})
 
+	// Static file
+	app.Static("/static", "./public/static")
+
 	app.Listen(":3000")
 }
