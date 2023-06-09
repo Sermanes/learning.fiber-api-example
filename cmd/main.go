@@ -27,5 +27,10 @@ func main() {
 		return c.SendString(fmt.Sprintf("Hello %s", c.Params("name")))
 	})
 
+	// Wildcards
+	app.Get("/api/*", func(c *fiber.Ctx) error {
+		return c.SendString(fmt.Sprintf("API Path is: %s", c.Params("*")))
+	})
+
 	app.Listen(":3000")
 }
