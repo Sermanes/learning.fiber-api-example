@@ -33,7 +33,7 @@ func main() {
 	})
 
 	// Static file
-	app.Static("/static", "./public")
+	app.Static("/static", "./public/static")
 
 	app.Listen(":3000")
 }
