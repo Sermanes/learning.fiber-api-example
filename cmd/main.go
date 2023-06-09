@@ -13,8 +13,18 @@ func main() {
 		return c.SendString("Hello World!")
 	})
 
-	app.Get("/:name", func(c *fiber.Ctx) error {
+	// Using mandatory params
+	app.Get("/mandatory/:name", func(c *fiber.Ctx) error {
 		return c.SendString(fmt.Sprintf("Hello %s!", c.Params("name")))
+	})
+
+	// Using optional parameter
+	app.Get("/optional/:name?", func(c *fiber.Ctx) error {
+		if c.Params("name") == "" {
+			return c.SendString("What's your name?")
+		}
+
+		return c.SendString(fmt.Sprintf("Hello %s", c.Params("name")))
 	})
 
 	app.Listen(":3000")
