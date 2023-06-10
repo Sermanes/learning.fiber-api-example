@@ -14,15 +14,16 @@ func main() {
 		CaseSensitive: true,
 		ServerHeader:  "HTTP Server",
 		AppName:       "Learning Project",
+		ReadTimeout:   20 * time.Second,
 	}
 
 	app := fiber.New(config)
 
 	// Allow only one connection per IP
-	app.Server().MaxConnsPerIP = 1
+	app.Server().MaxConnsPerIP = 2
 
 	// This always happens
-	app.Use(func (c *fiber.Ctx) error {
+	app.Use(func(c *fiber.Ctx) error {
 		log.Println("Hi, I always show up!")
 		return c.Next()
 	})
@@ -73,15 +74,19 @@ func main() {
 	})
 
 	app.Static("/image", "./files/fondo.jpg", fiber.Static{
-		Compress: true,
-		ByteRange: true,
+		Compress:      true,
+		ByteRange:     true,
 		CacheDuration: 10 * time.Second,
-		MaxAge: 20,
+		MaxAge:        20,
 	})
 
 	app.Get("/sleep", func(c *fiber.Ctx) error {
-		time.Sleep(5 * time.Second)
+		time.Sleep(10 * time.Second)
 		return c.SendString("Sleeping")
+	})
+
+	app.Get("/shutdown", func(c *fiber.Ctx) error {
+		return app.Shutdown()
 	})
 
 	app.Listen(":3000")
