@@ -84,11 +84,11 @@ func main() {
 	app.Get("/sleep", func(c *fiber.Ctx) error {
 		time.Sleep(10 * time.Second)
 		return c.SendString("Sleeping")
-	})
+	}).Name("Sleep")
 
 	app.Get("/shutdown", func(c *fiber.Ctx) error {
 		return app.Shutdown()
-	})
+	}).Name("Shutdown")
 	
 	// Enpoint's map
 	app.Get("/map", func(c *fiber.Ctx) error {
