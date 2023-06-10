@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -16,6 +17,11 @@ func main() {
 	}
 
 	app := fiber.New(config)
+
+	app.Use(func (c *fiber.Ctx) error {
+		log.Println("Hi, I always show up!")
+		return c.Next()
+	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
