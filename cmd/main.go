@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -45,6 +46,13 @@ func main() {
 	// Return an error response
 	app.Get("/error", func(c *fiber.Ctx) error {
 		return fiber.NewError(500, "Hello Internal Server Error")
+	})
+
+	app.Static("/image", "./files/fondo.jpg", fiber.Static{
+		Compress: true,
+		ByteRange: true,
+		CacheDuration: 10 * time.Second,
+		MaxAge: 20,
 	})
 
 	app.Listen(":3000")
