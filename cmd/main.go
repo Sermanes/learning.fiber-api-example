@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/Sermanes/learning.fiber-api-example/handler"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -43,9 +44,7 @@ func main() {
 		return c.Next()
 	})
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello World!")
-	})
+	app.Get("/", handler.HelloWorldHandler)
 
 	// Using mandatory params
 	app.Get("/mandatory/:name", func(c *fiber.Ctx) error {
