@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -87,6 +88,12 @@ func main() {
 
 	app.Get("/shutdown", func(c *fiber.Ctx) error {
 		return app.Shutdown()
+	})
+	
+	// Enpoint's map
+	app.Get("/map", func(c *fiber.Ctx) error {
+		data, _ := json.MarshalIndent(app.Stack(), "", "\t")
+		return c.SendString(string(data))
 	})
 
 	app.Listen(":3000")
