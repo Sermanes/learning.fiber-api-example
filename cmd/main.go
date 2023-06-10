@@ -30,6 +30,14 @@ func main() {
 		return c.Next()
 	})
 
+	// Multiple handlers in one Use
+	app.Use("/mandatory", func(c *fiber.Ctx) error {
+		c.Set("X-Custom-Header", "test")
+		return c.Next()
+	}, func(c *fiber.Ctx) error {
+		return c.Next()
+	})
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
 	})
