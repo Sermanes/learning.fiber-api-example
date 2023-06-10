@@ -18,8 +18,15 @@ func main() {
 
 	app := fiber.New(config)
 
+	// This always happens
 	app.Use(func (c *fiber.Ctx) error {
 		log.Println("Hi, I always show up!")
+		return c.Next()
+	})
+
+	// This always happens when match requests starting with /api or /static
+	app.Use([]string{"/api", "/static"}, func(c *fiber.Ctx) error {
+		log.Println("I am an api or static endpoint, right?")
 		return c.Next()
 	})
 
