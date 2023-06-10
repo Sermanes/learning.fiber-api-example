@@ -18,6 +18,9 @@ func main() {
 
 	app := fiber.New(config)
 
+	// Allow only one connection per IP
+	app.Server().MaxConnsPerIP = 1
+
 	// This always happens
 	app.Use(func (c *fiber.Ctx) error {
 		log.Println("Hi, I always show up!")
@@ -74,6 +77,11 @@ func main() {
 		ByteRange: true,
 		CacheDuration: 10 * time.Second,
 		MaxAge: 20,
+	})
+
+	app.Get("/sleep", func(c *fiber.Ctx) error {
+		time.Sleep(5 * time.Second)
+		return c.SendString("Sleeping")
 	})
 
 	app.Listen(":3000")
