@@ -7,7 +7,14 @@ import (
 )
 
 func main() {
-	app := fiber.New()
+	config := fiber.Config{
+		Prefork:       false,
+		CaseSensitive: true,
+		ServerHeader:  "HTTP Server",
+		AppName:       "Learning Project",
+	}
+
+	app := fiber.New(config)
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello World!")
@@ -34,6 +41,11 @@ func main() {
 
 	// Static file
 	app.Static("/static", "./public/static")
+
+	// Return an error response
+	app.Get("/error", func(c *fiber.Ctx) error {
+		return fiber.NewError(500, "Hello Internal Server Error")
+	})
 
 	app.Listen(":3000")
 }
