@@ -99,5 +99,21 @@ func main() {
 		return c.SendString(fmt.Sprintf("Hello %s %s", params["name"], params["surname"]))
 	})
 
+	app.Get("/cookie", func(c *fiber.Ctx) error {
+		c.Cookie(&fiber.Cookie{
+			Name: "token",
+			Value: "1234",
+			Expires: time.Now().Add(24 * time.Hour),
+		})
+
+		return c.SendString("We've set a cookie")
+	})
+
+	app.Get("/clear-cookies", func(c *fiber.Ctx) error {
+		c.ClearCookie("token")
+
+		return c.SendString("We've cleaned the cookie")
+	})
+
 	app.Listen(":3000")
 }
