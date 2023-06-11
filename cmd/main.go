@@ -135,5 +135,14 @@ func main() {
 		return c.JSON(param)
 	})
 
+	// http://127.0.0.1:3000/query?order=12&brand=123
+	app.Get("/query", func(c *fiber.Ctx) error {
+		return c.SendString(fmt.Sprintf("Order: %s, Brand: %s", c.Query("order"), c.Query("brand")))
+	})
+
+	app.Get("/redirect", func(c *fiber.Ctx) error {
+		return c.Redirect("/")
+	})
+
 	app.Listen(":3000")
 }
