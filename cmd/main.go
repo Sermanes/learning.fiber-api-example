@@ -119,5 +119,13 @@ func main() {
 		return c.Download("./files/fondo.jpg")
 	})
 
+	app.Get("/localhost", func(c *fiber.Ctx) error {
+		if c.IsFromLocal() {
+			return c.SendString("Hi!")
+		}
+
+		return fiber.NewError(405, "Method not allowed for you! Only Localhost")
+	})
+
 	app.Listen(":3000")
 }
