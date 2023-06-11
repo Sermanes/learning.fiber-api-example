@@ -1,7 +1,7 @@
 package main
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http/httptest"
 	"testing"
 
@@ -26,7 +26,7 @@ func TestMain(t *testing.T) {
 
 		// Compare the results
 		assert.Equal(t, fiber.StatusOK, response.StatusCode)
-		body, _ := ioutil.ReadAll(response.Body)
+		body, _ := io.ReadAll(response.Body)
 		assert.Equal(t, want, string(body))
 	})
 }
