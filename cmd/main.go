@@ -127,5 +127,13 @@ func main() {
 		return fiber.NewError(405, "Method not allowed for you! Only Localhost")
 	})
 
+	app.Get("/test/user/:id", func(c *fiber.Ctx) error {
+		param := struct {ID uint `params:"id"`}{}
+
+		c.ParamsParser(&param)
+
+		return c.JSON(param)
+	})
+
 	app.Listen(":3000")
 }
