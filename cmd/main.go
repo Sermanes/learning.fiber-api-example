@@ -95,5 +95,11 @@ func main() {
 		return c.SendString(string(data))
 	})
 
+	// Get url params
+	app.Get("/:name/:surname", func (c *fiber.Ctx) error {
+		params := c.AllParams()
+		return c.SendString(fmt.Sprintf("Hello %s %s", params["name"], params["surname"]))
+	})
+
 	app.Listen(":3000")
 }
