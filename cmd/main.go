@@ -115,5 +115,9 @@ func main() {
 		return c.SendString("We've cleaned the cookie")
 	})
 
+	app.Get("/download", func(c *fiber.Ctx) error {
+		return c.Download("./files/fondo.jpg")
+	})
+
 	app.Listen(":3000")
 }
