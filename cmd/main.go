@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"time"
@@ -88,15 +87,14 @@ func main() {
 	app.Get("/shutdown", func(c *fiber.Ctx) error {
 		return app.Shutdown()
 	}).Name("Shutdown")
-	
+
 	// Enpoint's map
 	app.Get("/map", func(c *fiber.Ctx) error {
-		data, _ := json.MarshalIndent(app.Stack(), "", "\t")
-		return c.SendString(string(data))
+		return c.JSON(c.App().Stack())
 	})
 
 	// Get url params
-	app.Get("/:name/:surname", func (c *fiber.Ctx) error {
+	app.Get("/:name/:surname", func(c *fiber.Ctx) error {
 		params := c.AllParams()
 		return c.SendString(fmt.Sprintf("Hello %s %s", params["name"], params["surname"]))
 	})
